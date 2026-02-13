@@ -2,6 +2,12 @@
 
 Real-time NASCAR Cup Series tracker with live race data, weather conditions, driver stats, and race results. All data sourced from NASCAR's public CDN and the free Open-Meteo weather API.
 
+## Screenshots
+
+| Live | Races | Results | My Driver |
+|:---:|:---:|:---:|:---:|
+| ![Live Tab](https://github.com/user-attachments/assets/8a3da48d-3490-4317-9e0f-feb01bfae68d) | ![Races Tab](https://github.com/user-attachments/assets/3e921e23-a1b0-40de-a2ee-13bfb1782ebc) | ![Race Results](https://github.com/user-attachments/assets/79e3bfa5-8123-4b43-b51e-b2debd4ea1ff) | ![My Driver](https://github.com/user-attachments/assets/00984b91-e836-4125-92e3-63fcd38c04b9) |
+
 ## Features
 
 - **Live Tab** — Real-time race feed with flag status, leaderboard, pit stops, stage info, and current weather at the track
