@@ -1,0 +1,9 @@
+services:
+  nascar-tracker:
+    build: .
+    container_name: nascar-tracker
+    ports:
+      - "9005:80"
+    environment:
+      - NASCAR_SEASON=${NASCAR_SEASON:-2026}
+    restart: unless-stopped
