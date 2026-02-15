@@ -5,6 +5,15 @@ export default function RaceSelector({ races, selected, onSelect }) {
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
+  const getSeriesBadge = (seriesId) => {
+    switch (seriesId) {
+      case 1: return '🏆';  // Cup
+      case 2: return '🟢';  // Xfinity
+      case 3: return '🔵';  // Truck
+      default: return '';
+    }
+  };
+
   return (
     <select
       value={selected || ''}
@@ -14,10 +23,16 @@ export default function RaceSelector({ races, selected, onSelect }) {
       <option value="">Select a race...</option>
       {(races || []).map(r => {
         const completed = r.winner_driver_id && r.winner_driver_id !== 0;
-        const date = formatDate(r.date_scheduled);
+        const date = formatDate(r.date_scheduled || r.race_date);
+        const seriesBadge = getSeriesBadge(r.series_id);
+        const seriesShort = r.series_short || '';
+
+        // Show [FINAL] for completed races
+        const status = completed ? '[FINAL] ' : '';
+
         return (
-          <option key={r.race_id} value={r.race_id}>
-            {completed ? '\u2705 ' : ''}{date} - {r.race_name} ({r.track_name})
+          <option key={`${r.series_id}-${r.race_id}`} value={`${r.series_id}-${r.race_id}`}>
+            {status}{seriesBadge} {seriesShort} | {date} - {r.race_name}
           </option>
         );
       })}

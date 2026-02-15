@@ -5,9 +5,10 @@ export default {
     extend: {
       colors: {
         nascar: {
-          bg: '#1A1A2E',
-          card: '#222244',
-          surface: '#2A2A4A',
+          bg: '#171717',
+          card: '#010101',
+          surface: '#3d3d40',
+          border: '#4e4e4e',
           yellow: '#FEDB00',
           red: '#E31937',
         },

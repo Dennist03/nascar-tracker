@@ -6,7 +6,6 @@ export default function Header() {
         <h1 className="text-lg font-bold text-nascar-yellow tracking-wide">
           NASCAR TRACKER
         </h1>
-        <span className="text-xs text-gray-400 ml-auto">Cup Series</span>
       </div>
     </header>
   );

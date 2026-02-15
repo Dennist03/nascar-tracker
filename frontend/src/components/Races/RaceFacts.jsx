@@ -1,17 +1,43 @@
 export default function RaceFacts({ raceData }) {
   if (!raceData) return null;
 
-  // Extract facts from weekend feed data
+  // Handle both live feed data and weekend feed data
   const race = raceData.weekend_race?.[0] || raceData;
-  const results = race.results || [];
+  const isLiveFeed = !!raceData.vehicles; // Live feed has vehicles array
+
+  // Helper to format time from seconds
+  const formatTime = (seconds) => {
+    if (!seconds) return null;
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
+    if (hours > 0) {
+      return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    }
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Get values with fallbacks for different data sources
+  const leadChanges = race.number_of_lead_changes ?? race.lead_changes;
+  const cautions = race.number_of_caution_segments ?? race.number_of_cautions;
+  const cautionLaps = race.number_of_caution_laps ?? race.caution_laps;
+  const leaders = race.number_of_leaders;
+  const avgSpeed = race.average_speed;
+  const marginOfVictory = race.margin_of_victory;
+  const raceTime = race.total_race_time || (isLiveFeed && race.elapsed_time ? formatTime(race.elapsed_time) : null);
 
   const facts = [
-    { label: 'Lead Changes', value: race.lead_changes ?? race.number_of_lead_changes ?? '-' },
-    { label: 'Cautions', value: race.number_of_cautions != null ? `${race.number_of_cautions} (${race.caution_laps ?? 0} laps)` : '-' },
-    { label: 'Avg Speed', value: race.average_speed ? `${parseFloat(race.average_speed).toFixed(1)} mph` : '-' },
-    { label: 'Margin of Victory', value: race.margin_of_victory || '-' },
-    { label: 'Race Time', value: race.total_race_time || '-' },
-    { label: 'Green Flag Passes', value: race.green_flag_passes_for_lead ?? race.green_flag_passes ?? '-' },
+    { label: 'Lead Changes', value: leadChanges ?? '-' },
+    {
+      label: 'Cautions',
+      value: cautions != null
+        ? (cautionLaps ? `${cautions} (${cautionLaps} laps)` : cautions)
+        : '-'
+    },
+    { label: 'Different Leaders', value: leaders ?? '-' },
+    { label: 'Avg Speed', value: avgSpeed ? `${parseFloat(avgSpeed).toFixed(1)} mph` : '-' },
+    { label: 'Margin of Victory', value: marginOfVictory || '-' },
+    { label: isLiveFeed ? 'Elapsed Time' : 'Race Time', value: raceTime || '-' },
   ];
 
   const hasFacts = facts.some(f => f.value !== '-');

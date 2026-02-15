@@ -22,11 +22,23 @@ export default function DriverSelector({ drivers, selected, onSelect }) {
     );
   });
 
-  const formatDriver = (d) => {
-    if (sortMode === 'number') {
-      return `#${d.number} - ${d.fullName}`;
+  const getSeriesBadge = (seriesShort) => {
+    switch (seriesShort) {
+      case 'Cup': return '🏆';
+      case 'Xfinity': return '🟢';
+      case 'Truck': return '🔵';
+      default: return '';
     }
-    return `${d.lastName}, ${d.firstName} #${d.number}`;
+  };
+
+  const formatDriver = (d) => {
+    const badge = getSeriesBadge(d.seriesShort);
+    const number = d.number || '—';
+
+    if (sortMode === 'number') {
+      return `${badge} #${number} - ${d.fullName}`;
+    }
+    return `${badge} ${d.lastName}, ${d.firstName} #${number}`;
   };
 
   return (
